@@ -1,2 +1,2 @@
-# BH_Ringdown
+# Black Hole Ringdown
 Contains code to generate black hole trajectories, waveforms, and compute QNM. The folder GenOT contains the scripts to generate trajectories using the generalized Ori-Thorne procedure as explained in https://arxiv.org/abs/1901.05901. The files in TD_GPU_code are used to compute gravitational radiation from these trajectories using time-domain Teukolsky equation. Finally the folder QNM_Extraction contains the code to extract amplitudes of Quasi-normal modes from the emitted gravitational radiation as explained in https://arxiv.org/abs/1901.05902. 
