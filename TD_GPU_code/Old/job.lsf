@@ -1,0 +1,18 @@
+#!/bin/bash
+
+#BSUB -n 1
+#BSUB -R rusage[mem=2048,ngpus_excl_p=1]
+#BSUB -R "span[hosts=1]" # All on one host
+#BSUB -R "select[ncc=7.0]" # V100
+#BSUB -q gpu
+#BSUB -W 24:00
+#BSUB -o "/home/gk41d/%J.out"
+#BSUB -e "/home/gk41d/%J.err"
+
+module load cuda
+
+hostname
+nvidia-smi
+
+echo "sample job .."
+./a0.9_thi060_thf150.3_n

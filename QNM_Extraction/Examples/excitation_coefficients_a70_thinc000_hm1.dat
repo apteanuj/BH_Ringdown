@@ -1,0 +1,20 @@
+#[0] thetafin
+#[1] sign_thetafindot
+#[2] l2m1_amp
+#[3] l2m1_phase
+#[4] l2mm1prime_amp
+#[5] l2mm1prime_phase
+#[6] l3m1_amp
+#[7] l3m1_phase
+#[8] l3mm1prime_amp
+#[9] l3mm1prime_phase
+#[10] l4m1_amp
+#[11] l4m1_phase
+#[12] l4mm1prime_amp
+#[13] l4mm1prime_phase
+#[14] l5m1_amp
+#[15] l5m1_phase
+#[16] l5mm1prime_amp
+#[17] l5mm1prime_phase
+90.00	-1	6.4074e-01	2.0063e+00	1.9897e-03	4.3923e+00	4.1953e-02	2.5807e+00	5.4188e-04	5.1228e+00	3.0344e-03	3.2715e+00	1.4317e-04	3.0775e+00	4.5499e-04	3.0698e+00	1.3983e-04	4.5186e+00
+90.00	1	6.4074e-01	2.0063e+00	1.9897e-03	4.3923e+00	4.1953e-02	2.5807e+00	5.4188e-04	5.1228e+00	3.0344e-03	3.2715e+00	1.4317e-04	3.0775e+00	4.5499e-04	3.0698e+00	1.3983e-04	4.5186e+00

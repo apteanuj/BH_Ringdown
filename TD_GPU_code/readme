@@ -1,0 +1,38 @@
+Hi Guys —
+
+Just FYI .. I uploaded the current higher-order version of the time-domain EMRI Teukolsky CUDA-code to our shared DropBox. I think Scott has the older 2nd-order version from sometime back (2010?); but, I think it makes sense to make the version in current use accessible to all of us .. just in case. :-)
+
+The code is not quite documented (yet) but it shouldn’t be too hard to follow. 
+
+To use, you can drop a couple of trajectories in the “Trajectories” directory and run the script "./run.sh”. The script will submit jobs to a cluster queuing system (bsub/LSF) to compute multiple h_lm modes for each trajectory and will base the output filenames on the name of the input (trajectory) files. That is all! The details are set up to run the type of trajectories we have been using lately. 
+
+A few additional tips:
+
+1. The “run.sh" wrapper script uses the “build.sh” script to compile the CUDA code (note that the script needs some env variables set; in particular where CUDA SDK is installed on the system). Executable is called "runme".
+
+2. The grid parameters are in “param.h" (they are labelled). 
+
+3. The equation parameters (mass, spin etc) are in “main.c". 
+
+4. The “main.c" file just sets up the grid, initial data, etc. and then calls "body.cu". This “main.c" runs on the CPU.
+
+5. The “body.cu" file sets up the communication with the GPU and loops through the main time-iterations and does I/O. This code runs on the CPU too.
+
+6. All the higher-order finite-differencing is all done in “kern.cu" that runs entirely on the GPU. The “kern.cu" file should look familiar; it has the derivatives, the RHS, and at the bottom the source-term computation. Oh .. note that the GPU doesn't know anything about complex numbers (that we need for the source-term) so there is a “mycmplx.h" file that operator overloads basic arithmetic operations to enable complex arithmetic. It's only used by the GPU. 
+
+Let me know if there are questions. If you decide to run it at some point, let me know. I may have a somewhat improved version available at some point in the future.
+
+Cheers,
+Gaurav
+
+----------------------------------------------------------------------------------------
+GAURAV KHANNA, (508) 910 6605, http://gravity.phy.umassd.edu
+Professor, Physics Department, College of Engineering
+Co-Director, Center for Scientific Computing & Visualization Research
+Graduate Program Director, Engg & Appl. Sci. Ph.D. Program 
+University of Massachusetts Dartmouth
+
+"Black holes are where God divided by zero." - Steven Wright
+
+
+

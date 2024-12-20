@@ -1,0 +1,100 @@
+Quickstart instruction for generating world lines with the C++ code
+
+These instructions work best in a unix-type system.
+
+First, download and compile:
+
+1. Download into a clean directory or folder all of the .h and .cc
+files.  These constitute the core of the worldline code.
+
+2. Download the file OT_X_vs_L.dat.  This file contains numerical data
+for the Ori-Thorne transition function.
+
+3. Download one or more examples of adiabatic worldlines from the
+folder "Adiabatic Worldlines" in the "Codes etc" folder of our
+dropbox.  These files are all for spin a = 0.5M, and are labeled
+according to the starting value of theta_inc.
+
+4. Compile the code that generates the Mino-time parameter space
+worldline:
+
+g++ ParamWLMino.cc -o ParamWLMino -lm
+
+5. Compile the code that generates the Boyer-Lindquist worldline:
+
+g++ WL_BL_RK.cc -o WL_BL_RK -lm
+
+----
+
+Next, use these codes to make worldlines.  The codes are both set up
+so that if you run them without arguments, it tells you what arguments
+must be provided in order to run them properly:
+
+1. Convert the adiabatic worldline into a Mino-time
+inspiral/transition/plunge trajectory.
+
+hmunu.[20:21].Code.16.% ./ParamWLMino
+Arguments: 1. a  2. eta  3. adiabatic inspiral data filename
+           4. LTi, the Ori-Thorne time at which transition begins
+           5. LTf, the Ori-Thorne time at which transition ends
+	   6. Value of r to start the inspiral
+           7. Model for evolution of integrals in transition:
+                1 == constant plus quadratic to enforce continuity
+                2 == quadratic plus cubic to enforce continuity
+hmunu.[20:22].Code.17.% ./ParamWLMino 0.5 1e-4 a0.5_insp_060 -5 2.5 8 2 > a0.5_eta1e-4_LTi-5_LTf2.5.mino
+
+The file a0.5_eta1e-4_LTi-5_LTf2.5.mino will now contain all data
+describing the Mino-tim trajectory.  (If you don't do the redirect
+with the file name, the output will just print to the screen.)  File
+format:
+
+Column 1: Mino time lambda
+Column 2: Orbital radius r
+Column 3: Value of theta_inc (which changes slightly during inspiral)
+Column 4: Energy E
+Column 5: Axial angular momentum L
+Column 6: Carter constant Q
+
+2. Convert the Mino-time trajectory into a Boyer-Lindquist time
+worldline:
+
+hmunu.[20:30].Code.20.% ./WL_BL_RK 
+Args: 1. a  2. Mino time trajectory filename
+      3. Desired total duration of worldline
+      4. Initial value of angular phase chi (degrees)
+      5. Initial value of axial angle phi (degrees)
+
+A bit of explanation:
+
+Parameter 3 controls the total length of the worldline that you will
+produce (in units of M).  As the code is currently written, it
+hardwires in 500M of "padding" at the end.  This means that the code
+will produce [(arg 3) - 500]M of inspiral until roughly the midpoint
+of the generalized Ori-Thorne transition, then 500M beyond this point.
+This insures that the plunging trajectory spends nearly 500M sitting
+just outside the event horizon in BL coordinates.  (You can adjust the
+duration of the end padding by changing the variable "end_padding" in
+the code.)
+
+Parameter 5 sets the initial phase, controlling where in the theta
+oscillation cycle the orbit is at time t = 0.  The phase chi fixes
+theta via
+
+cos(theta) = cos(theta_m) cos(chi + chi_0)
+           = sin(theta_inc) cos(chi + chi_0)
+
+We use this parameter to get different values of theta_f as the small
+body completes its plunge.
+
+Parameter 6 just controls the initial axial position; it can safely be
+set to zero.
+
+Example of use:
+
+hmunu.[20:37].Code.3.% ./WL_BL_RK 0.5 a0.5_eta1e-4_LTi-5_LTf2.5.mino -100 6500 0 0 > a0.5_thi60_chi0.traj
+
+The format of this file is such that it can be used as input to
+Gaurav's code:
+
+time  r  th  dr/dt  dth/dt  dph/dt  ph  E  Lz  Q
+
